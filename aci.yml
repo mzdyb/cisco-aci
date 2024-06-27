@@ -1,12 +1,6 @@
 ---
 - name: ACI automation
   hosts: apic
-  module_defaults:
-    group/cisco.aci.all:
-      host: "{{ inventory_hostname }}"
-      username: "{{ apic_username }}"
-      password: "{{ apic_password }}"
-      validate_certs: false
 
   roles:
     - configure_application

@@ -1,7 +1,10 @@
 [apic]
-sandboxapicdc.cisco.com
+apic1 ansible_host=sandboxapicdc.cisco.com
 
 [apic:vars]
-apic_username = 'admin'
-apic_password = '!v3G@!4@Y'  # for production environment use environment variables or ansible vault
-ansible_connection = 'local'
+ansible_connection=ansible.netcommon.httpapi
+ansible_network_os=cisco.aci.aci
+ansible_user=admin
+ansible_password=!v3G@!4@Y
+ansible_httpapi_validate_certs=false
+ansible_httpapi_use_ssl=true
