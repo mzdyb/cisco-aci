@@ -1,6 +1,7 @@
 ---
 - name: Create Tenant
   cisco.aci.aci_tenant:
+    output_level: debug # httpapi plugin feature to enable detailed httpapi_logs debugging
     tenant: "{{ item.name }}"
     description: "{{ item.description }}"
     state: present
