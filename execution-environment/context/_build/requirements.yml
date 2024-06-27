@@ -1,0 +1,7 @@
+collections:
+- name: netbox.netbox
+- name: junipernetworks.junos
+- name: juniper.device
+- name: cisco.ios
+- name: arista.eos
+- name: cisco.aci

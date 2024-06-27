@@ -1,0 +1,7 @@
+[apic]
+sandboxapicdc.cisco.com
+
+[apic:vars]
+apic_username = 'admin'
+apic_password = '!v3G@!4@Y'  # for production environment use environment variables or ansible vault
+ansible_connection = 'local'

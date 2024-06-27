@@ -1,0 +1,71 @@
+---
+- name: Create Tenant
+  cisco.aci.aci_tenant:
+    tenant: "{{ item.name }}"
+    description: "{{ item.description }}"
+    state: present
+  loop: "{{ tenants }}"
+
+- name: Create VRF
+  cisco.aci.aci_vrf:
+    tenant: "{{ item.tenant }}"
+    vrf: "{{ item.vrf_name }}"
+    descr: "{{ item.description }}"
+    policy_control_preference: "{{ item.policy_enforcement }}"
+    policy_control_direction: "{{ item.policy_direction }}"
+    state: present
+  loop: "{{ vrfs }}"
+
+- name: Create Bridge Domain
+  cisco.aci.aci_bd:
+    tenant: "{{ item.tenant }}"
+    vrf: "{{ item.vrf }}"
+    bd: "{{ item.bd_name }}"
+    state: present
+  loop: "{{ bridge_domains }}"
+
+- name: Create Subnet
+  cisco.aci.aci_bd_subnet:
+    tenant: "{{ item.0.tenant }}"
+    bd: "{{ item.0.bd_name }}"
+    gateway: "{{ item.1.gateway }}"
+    mask: "{{ item.1.mask }}"
+    scope: "{{ item.1.scope }}"
+    state: present
+  loop: "{{ bridge_domains|subelements('subnets') }}"
+
+- name: Create Application Profile
+  cisco.aci.aci_ap:
+    tenant: "{{ item.tenant }}"
+    ap: "{{ item.ap_name }}"
+    state: present
+  loop: "{{ application_profiles }}"
+
+- name: Create EPG
+  cisco.aci.aci_epg:
+    tenant: "{{ item.tenant }}"
+    ap: "{{ item.ap }}"
+    epg: "{{ item.epg }}"
+    bd: "{{ item.bd }}"
+    state: present
+  loop: "{{ epgs }}"
+
+- name: Create filter
+  cisco.aci.aci_filter:
+    tenant: "{{ item.tenant }}"
+    filter: "{{ item.filter_name }}"
+    description: "{{ item.description }}"
+    state: present
+  loop: "{{ filters }}"
+
+- name: Create filter entry
+  cisco.aci.aci_filter_entry:
+    tenant: "{{ item.0.tenant }}"
+    filter: "{{ item.0.filter_name }}"
+    entry: "{{ item.1.entry_name }}"
+    ether_type: "{{ item.1.ethertype }}"
+    ip_protocol: "{{ item.1.protocol }}"
+    dst_port_start: "{{ item.1.dst_port }}"
+    dst_port_end: "{{ item.1.dst_port }}"
+    state: present
+  loop: "{{ filters|subelements('filter_entries') }}"
