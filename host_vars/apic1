@@ -3,79 +3,51 @@ tenants:
   - name: production
     description: 'Production Tenant'
     tenant_state: present
-  - name: developement
-    description: 'Developement Tenant'
-    tenant_state: present
 
 vrfs:
-  - vrf_name: vrf1_prod
+  - vrf_name: vrf1
     description: 'Production VRF'
     tenant: production
     policy_direction: ingress
     policy_enforcement: enforced
     vrf_state: present
-  - vrf_name: vrf1_dev
-    description: 'developement VRF'
-    tenant: developement
-    policy_direction: ingress
-    policy_enforcement: enforced
-    vrf_state: present
 
 bridge_domains:
-  - bd_name: app_bd_prod
+  - bd_name: app_bd
     tenant: production
-    vrf: vrf1_prod
+    vrf: vrf1
     bd_state: present
     subnets:
       - gateway: 10.0.1.1
         mask: 24
         scope: public
-  - bd_name: database_bd_prod
+  - bd_name: database_bd
     tenant: production
-    vrf: vrf1_prod
+    vrf: vrf1
     subnets:
       - gateway: 10.0.2.1
         mask: 24
         scope: public
 
-  - bd_name: app_bd_dev
-    tenant: developement
-    vrf: vrf1_dev
-    subnets:
-      - gateway: 10.10.1.1
-        mask: 24
-        scope: public
-  - bd_name: database_bd_dev
-    tenant: developement
-    vrf: vrf1_dev
-    subnets:
-      - gateway: 10.10.2.1
-        mask: 24
-        scope: public
-
 application_profiles:
-  - ap_name: ap1_prod
+  - ap_name: ap1
     tenant: production
-  - ap_name: ap1_dev
-    tenant: developement
 
 epgs:
-  - epg_name: app_epg_prod
+  - epg_name: app_epg
     tenant: production
-    ap: ap1_prod
-    bd: app_bd_prod
-  - epg_name: database_epg_prod
+    ap: ap1
+    bd: app_bd
+    # epg_contracts:
+    #   - contract: app_to_database
+    #     contract_type: consumer
+  - epg_name: database_epg
     tenant: production
-    ap: ap1_prod
-    bd: database_bd_prod
-  - epg_name: app_epg_dev
-    tenant: developement
-    ap: ap1_dev
-    bd: app_bd_dev
-  - epg_name: database_epg_dev
-    tenant: developement
-    ap: ap1_dev
-    bd: database_bd_dev
+    ap: ap1
+    bd: database_bd
+    epg_contracts:
+      - contract: app_to_database
+        contract_type: provider
 
 filters:
   - filter_name: db_filter
