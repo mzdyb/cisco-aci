@@ -1,57 +1,97 @@
 ---
 tenants:
-  - name: Production
+  - name: production
     description: 'Production Tenant'
-  - name: Developement
+    tenant_state: present
+  - name: developement
     description: 'Developement Tenant'
+    tenant_state: present
 
 vrfs:
-  - vrf_name: prod_vrf1
-    description: 'Production vrf1'
-    tenant: Production
+  - vrf_name: vrf1_prod
+    description: 'Production VRF'
+    tenant: production
     policy_direction: ingress
     policy_enforcement: enforced
-  - vrf_name: prod_vrf2
-    description: 'Production vrf2'
-    tenant: Production
+    vrf_state: present
+  - vrf_name: vrf1_dev
+    description: 'developement VRF'
+    tenant: developement
     policy_direction: ingress
     policy_enforcement: enforced
+    vrf_state: present
 
 bridge_domains:
-  - bd_name: prod_bd1_10.0.0.1_24
-    tenant: Production
-    vrf: prod_vrf1
+  - bd_name: app_bd_prod
+    tenant: production
+    vrf: vrf1_prod
+    bd_state: present
     subnets:
-      - gateway: 10.0.0.1
+      - gateway: 10.0.1.1
         mask: 24
         scope: public
-  - bd_name: prod_bd2_10.10.0.1_24
-    tenant: Production
-    vrf: prod_vrf1
+  - bd_name: database_bd_prod
+    tenant: production
+    vrf: vrf1_prod
     subnets:
-      - gateway: 10.10.0.1
+      - gateway: 10.0.2.1
+        mask: 24
+        scope: public
+
+  - bd_name: app_bd_dev
+    tenant: developement
+    vrf: vrf1_dev
+    subnets:
+      - gateway: 10.10.1.1
+        mask: 24
+        scope: public
+  - bd_name: database_bd_dev
+    tenant: developement
+    vrf: vrf1_dev
+    subnets:
+      - gateway: 10.10.2.1
         mask: 24
         scope: public
 
 application_profiles:
-  - ap_name: ap1
-    tenant: Production
+  - ap_name: ap1_prod
+    tenant: production
+  - ap_name: ap1_dev
+    tenant: developement
 
 epgs:
-  - epg_name: epg1
-    tenant: Production
-    ap: ap1
-    epg: epg1
-    bd: prod_bd1_10.0.0.1_24
-    
+  - epg_name: app_epg_prod
+    tenant: production
+    ap: ap1_prod
+    bd: app_bd_prod
+  - epg_name: database_epg_prod
+    tenant: production
+    ap: ap1_prod
+    bd: database_bd_prod
+  - epg_name: app_epg_dev
+    tenant: developement
+    ap: ap1_dev
+    bd: app_bd_dev
+  - epg_name: database_epg_dev
+    tenant: developement
+    ap: ap1_dev
+    bd: database_bd_dev
 
 filters:
-  - filter_name: web_filter
-    tenant: Production
-    description: 'Web filter'
+  - filter_name: db_filter
+    tenant: production
+    description: 'db filter'
     filter_entries:
-      - entry_name: 'allow_https'
+      - entry_name: 'allow_mysql'
         ethertype: ip
         protocol: tcp
-        dst_port: 443
+        dst_port: 3306
       
+contracts:
+  - contract_name: app_to_database
+    tenant: production
+    description: 'Communication between app server and database'
+    scope: context
+    subjects:
+      - subject_name: allow_app_to_database
+        filter: db_filter

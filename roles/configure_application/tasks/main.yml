@@ -1,10 +1,10 @@
 ---
 - name: Create Tenant
   cisco.aci.aci_tenant:
-    output_level: debug # httpapi plugin feature to enable detailed httpapi_logs debugging
     tenant: "{{ item.name }}"
     description: "{{ item.description }}"
     state: present
+    output_level: debug # httpapi plugin feature enabling httpapi_logs for debugging
   loop: "{{ tenants }}"
 
 - name: Create VRF
@@ -33,7 +33,7 @@
     mask: "{{ item.1.mask }}"
     scope: "{{ item.1.scope }}"
     state: present
-  loop: "{{ bridge_domains|subelements('subnets') }}"
+  loop: "{{ bridge_domains | subelements('subnets') }}"
 
 - name: Create Application Profile
   cisco.aci.aci_ap:
@@ -46,12 +46,12 @@
   cisco.aci.aci_epg:
     tenant: "{{ item.tenant }}"
     ap: "{{ item.ap }}"
-    epg: "{{ item.epg }}"
+    epg: "{{ item.epg_name }}"
     bd: "{{ item.bd }}"
     state: present
   loop: "{{ epgs }}"
 
-- name: Create filter
+- name: Create Filter
   cisco.aci.aci_filter:
     tenant: "{{ item.tenant }}"
     filter: "{{ item.filter_name }}"
@@ -59,7 +59,7 @@
     state: present
   loop: "{{ filters }}"
 
-- name: Create filter entry
+- name: Create Filter entry
   cisco.aci.aci_filter_entry:
     tenant: "{{ item.0.tenant }}"
     filter: "{{ item.0.filter_name }}"
@@ -69,4 +69,30 @@
     dst_port_start: "{{ item.1.dst_port }}"
     dst_port_end: "{{ item.1.dst_port }}"
     state: present
-  loop: "{{ filters|subelements('filter_entries') }}"
+  loop: "{{ filters | subelements('filter_entries') }}"
+
+- name: Create Contract
+  cisco.aci.aci_contract:
+    tenant: "{{ item.tenant }}"
+    contract: "{{ item.contract_name }}"
+    description: "{{ item.description }}"
+    scope: "{{ item.scope }}"
+    state: present
+  loop: "{{ contracts }}"
+
+- name: Create Contract Subject
+  cisco.aci.aci_contract_subject:
+    tenant: "{{ item.0.tenant }}"
+    contract: "{{ item.0.contract_name }}"
+    subject: "{{ item.1.subject_name }}"
+    state: present
+  loop: "{{ contracts | subelements('subjects') }}"
+
+- name: Bind Contract Subject to Filter
+  cisco.aci.aci_contract_subject_to_filter:
+    tenant: "{{ item.0.tenant }}"
+    contract: "{{ item.0.contract_name }}"
+    subject: "{{ item.1.subject_name }}"
+    filter: "{{ item.1.filter }}"
+    state: present
+  loop: "{{ contracts | subelements('subjects') }}"
