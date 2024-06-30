@@ -1,21 +1,22 @@
 ---
-# - name: Create Tenant
-#   cisco.aci.aci_tenant:
-#     tenant: "{{ item.name }}"
-#     description: "{{ item.description }}"
-#     state: present
-#     output_level: debug # httpapi plugin feature enabling httpapi_logs for debugging
-#   loop: "{{ tenants }}"
+- name: Create Tenant
+  cisco.aci.aci_tenant:
+    tenant: "{{ item.tenant_name }}"
+    description: "{{ item.description }}"
+    state: query
+    output_level: debug # httpapi plugin feature enabling httpapi_logs for debugging
+  loop: "{{ tenants }}"
+  register: output
 
-# - name: Create VRF
-#   cisco.aci.aci_vrf:
-#     tenant: "{{ item.tenant }}"
-#     vrf: "{{ item.vrf_name }}"
-#     descr: "{{ item.description }}"
-#     policy_control_preference: "{{ item.policy_enforcement }}"
-#     policy_control_direction: "{{ item.policy_direction }}"
-#     state: present
-#   loop: "{{ vrfs }}"
+- name: Create VRF
+  cisco.aci.aci_vrf:
+    tenant: "{{ item.tenant }}"
+    vrf: "{{ item.vrf_name }}"
+    descr: "{{ item.description }}"
+    policy_control_preference: "{{ item.policy_enforcement }}"
+    policy_control_direction: "{{ item.policy_direction }}"
+    state: present
+  loop: "{{ vrfs }}"
 
 # - name: Create Bridge Domain
 #   cisco.aci.aci_bd:
@@ -97,12 +98,12 @@
 #     state: present
 #   loop: "{{ contracts | subelements('subjects') }}"
 
-- name: Bind EPG to Contract
-  cisco.aci.aci_epg_to_contract:
-    tenant: "{{ item.0.tenant }}"
-    ap: "{{ item.0.ap }}"
-    epg: "{{ item.0.epg_name }}"
-    contract: "{{ item.1.contract }}"
-    contract_type: "{{ item.1.contract_type }}"
-    state: present
-  loop: "{{ epgs | subelements('epg_contracts', skip_missing=true) }}"
+# - name: Bind EPG to Contract
+#   cisco.aci.aci_epg_to_contract:
+#     tenant: "{{ item.0.tenant }}"
+#     ap: "{{ item.0.ap }}"
+#     epg: "{{ item.0.epg_name }}"
+#     contract: "{{ item.1.contract }}"
+#     contract_type: "{{ item.1.contract_type }}"
+#     state: present
+#   loop: "{{ epgs | subelements('epg_contracts', skip_missing=true) }}"

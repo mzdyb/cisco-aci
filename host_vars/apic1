@@ -1,6 +1,6 @@
 ---
 tenants:
-  - name: production
+  - tenant_name: production
     description: 'Production Tenant'
     tenant_state: present
 
