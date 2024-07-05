@@ -28,6 +28,7 @@ dependencies:
       - name: cisco.ios
       - name: arista.eos
       - name: cisco.aci
+      - name: community.general
   python:
     - pytz
     - pynetbox
@@ -37,6 +38,7 @@ dependencies:
     - pyats
     - jxmlease
     - xmltodict
+    - jmespath
 
   system:
     - python3 >=3.9

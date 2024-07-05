@@ -2,7 +2,7 @@
 tenants:
   - tenant_name: production
     description: 'Production Tenant'
-    tenant_state: present
+    state: present
 
 vrfs:
   - vrf_name: vrf1
@@ -10,60 +10,72 @@ vrfs:
     tenant: production
     policy_direction: ingress
     policy_enforcement: enforced
-    vrf_state: present
+    state: present
 
 bridge_domains:
   - bd_name: app_bd
     tenant: production
     vrf: vrf1
-    bd_state: present
+    state: present
     subnets:
       - gateway: 10.0.1.1
         mask: 24
         scope: public
+        state: present
   - bd_name: database_bd
     tenant: production
     vrf: vrf1
+    state: present
     subnets:
       - gateway: 10.0.2.1
         mask: 24
         scope: public
+        state: present
 
 application_profiles:
   - ap_name: ap1
     tenant: production
+    state: present
 
 epgs:
   - epg_name: app_epg
     tenant: production
     ap: ap1
     bd: app_bd
-    # epg_contracts:
-    #   - contract: app_to_database
-    #     contract_type: consumer
+    state: present
+    epg_contracts:
+      - contract: app_to_database
+        contract_type: consumer
+        state: present
   - epg_name: database_epg
     tenant: production
     ap: ap1
     bd: database_bd
+    state: present
     epg_contracts:
       - contract: app_to_database
         contract_type: provider
+        state: present
 
 filters:
   - filter_name: db_filter
     tenant: production
     description: 'db filter'
+    state: present
     filter_entries:
       - entry_name: 'allow_mysql'
         ethertype: ip
         protocol: tcp
         dst_port: 3306
+        state: present
       
 contracts:
   - contract_name: app_to_database
     tenant: production
     description: 'Communication between app server and database'
     scope: context
+    state: present
     subjects:
       - subject_name: allow_app_to_database
         filter: db_filter
+        state: present

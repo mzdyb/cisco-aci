@@ -1,7 +1,4 @@
 [apic]
-# httpapi plugin provides high availability feature which enables automatic switching to the next available controller in the cluster
-# For example: apic1 ansible_host=sandboxapicdc1.cisco.com,sandboxapicdc2.cisco.com,sandboxapicdc3.cisco.com
-# Here we have only one controller defined
 apic1 ansible_host=sandboxapicdc.cisco.com
 
 [apic:vars]

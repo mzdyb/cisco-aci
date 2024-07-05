@@ -1,109 +1,120 @@
 ---
-- name: Create Tenant
+- name: Configure Tenant
   cisco.aci.aci_tenant:
     tenant: "{{ item.tenant_name }}"
     description: "{{ item.description }}"
-    state: query
-    output_level: debug # httpapi plugin feature enabling httpapi_logs for debugging
+    state: "{{ item.state }}"
+    output_level: debug  # httpapi plugin enables httpapi_logs for debugging
   loop: "{{ tenants }}"
-  register: output
+  tags: [tenants, all]
 
-- name: Create VRF
+- name: Configure VRF
   cisco.aci.aci_vrf:
     tenant: "{{ item.tenant }}"
     vrf: "{{ item.vrf_name }}"
     descr: "{{ item.description }}"
     policy_control_preference: "{{ item.policy_enforcement }}"
     policy_control_direction: "{{ item.policy_direction }}"
-    state: present
+    state: "{{ item.state }}"
   loop: "{{ vrfs }}"
+  tags: [vrfs, all]
 
-# - name: Create Bridge Domain
-#   cisco.aci.aci_bd:
-#     tenant: "{{ item.tenant }}"
-#     vrf: "{{ item.vrf }}"
-#     bd: "{{ item.bd_name }}"
-#     state: present
-#   loop: "{{ bridge_domains }}"
+- name: Configure Bridge Domain
+  cisco.aci.aci_bd:
+    tenant: "{{ item.tenant }}"
+    vrf: "{{ item.vrf }}"
+    bd: "{{ item.bd_name }}"
+    state: "{{ item.state }}"
+  loop: "{{ bridge_domains }}"
+  tags: [bds, all]
 
-# - name: Create Subnet
-#   cisco.aci.aci_bd_subnet:
-#     tenant: "{{ item.0.tenant }}"
-#     bd: "{{ item.0.bd_name }}"
-#     gateway: "{{ item.1.gateway }}"
-#     mask: "{{ item.1.mask }}"
-#     scope: "{{ item.1.scope }}"
-#     state: present
-#   loop: "{{ bridge_domains | subelements('subnets') }}"
+- name: Configure Subnet
+  cisco.aci.aci_bd_subnet:
+    tenant: "{{ item.0.tenant }}"
+    bd: "{{ item.0.bd_name }}"
+    gateway: "{{ item.1.gateway }}"
+    mask: "{{ item.1.mask }}"
+    scope: "{{ item.1.scope }}"
+    state: "{{ item.1.state }}"
+  loop: "{{ bridge_domains | subelements('subnets') }}"
+  tags: [subnets, all]
 
-# - name: Create Application Profile
-#   cisco.aci.aci_ap:
-#     tenant: "{{ item.tenant }}"
-#     ap: "{{ item.ap_name }}"
-#     state: present
-#   loop: "{{ application_profiles }}"
+- name: Configure Application Profile
+  cisco.aci.aci_ap:
+    tenant: "{{ item.tenant }}"
+    ap: "{{ item.ap_name }}"
+    state: "{{ item.state }}"
+  loop: "{{ application_profiles }}"
+  tags: [aps, all]
 
-# - name: Create EPG
-#   cisco.aci.aci_epg:
-#     tenant: "{{ item.tenant }}"
-#     ap: "{{ item.ap }}"
-#     epg: "{{ item.epg_name }}"
-#     bd: "{{ item.bd }}"
-#     state: present
-#   loop: "{{ epgs }}"
+- name: Configure EPG
+  cisco.aci.aci_epg:
+    tenant: "{{ item.tenant }}"
+    ap: "{{ item.ap }}"
+    epg: "{{ item.epg_name }}"
+    bd: "{{ item.bd }}"
+    state: "{{ item.state }}"
+  loop: "{{ epgs }}"
+  tags: [epgs, all]
 
-# - name: Create Filter
-#   cisco.aci.aci_filter:
-#     tenant: "{{ item.tenant }}"
-#     filter: "{{ item.filter_name }}"
-#     description: "{{ item.description }}"
-#     state: present
-#   loop: "{{ filters }}"
+- name: Configure Filter
+  cisco.aci.aci_filter:
+    tenant: "{{ item.tenant }}"
+    filter: "{{ item.filter_name }}"
+    description: "{{ item.description }}"
+    state: "{{ item.state }}"
+  loop: "{{ filters }}"
+  tags: [filters, all]
 
-# - name: Create Filter entry
-#   cisco.aci.aci_filter_entry:
-#     tenant: "{{ item.0.tenant }}"
-#     filter: "{{ item.0.filter_name }}"
-#     entry: "{{ item.1.entry_name }}"
-#     ether_type: "{{ item.1.ethertype }}"
-#     ip_protocol: "{{ item.1.protocol }}"
-#     dst_port_start: "{{ item.1.dst_port }}"
-#     dst_port_end: "{{ item.1.dst_port }}"
-#     state: present
-#   loop: "{{ filters | subelements('filter_entries') }}"
+- name: Configure Filter entry
+  cisco.aci.aci_filter_entry:
+    tenant: "{{ item.0.tenant }}"
+    filter: "{{ item.0.filter_name }}"
+    entry: "{{ item.1.entry_name }}"
+    ether_type: "{{ item.1.ethertype }}"
+    ip_protocol: "{{ item.1.protocol }}"
+    dst_port_start: "{{ item.1.dst_port }}"
+    dst_port_end: "{{ item.1.dst_port }}"
+    state: "{{ item.1.state }}"
+  loop: "{{ filters | subelements('filter_entries') }}"
+  tags: [filters, all]
 
-# - name: Create Contract
-#   cisco.aci.aci_contract:
-#     tenant: "{{ item.tenant }}"
-#     contract: "{{ item.contract_name }}"
-#     description: "{{ item.description }}"
-#     scope: "{{ item.scope }}"
-#     state: present
-#   loop: "{{ contracts }}"
+- name: Configure Contract
+  cisco.aci.aci_contract:
+    tenant: "{{ item.tenant }}"
+    contract: "{{ item.contract_name }}"
+    description: "{{ item.description }}"
+    scope: "{{ item.scope }}"
+    state: "{{ item.state }}"
+  loop: "{{ contracts }}"
+  tags: [contracts, all]
 
-# - name: Create Contract Subject
-#   cisco.aci.aci_contract_subject:
-#     tenant: "{{ item.0.tenant }}"
-#     contract: "{{ item.0.contract_name }}"
-#     subject: "{{ item.1.subject_name }}"
-#     state: present
-#   loop: "{{ contracts | subelements('subjects') }}"
+- name: Configure Contract Subject
+  cisco.aci.aci_contract_subject:
+    tenant: "{{ item.0.tenant }}"
+    contract: "{{ item.0.contract_name }}"
+    subject: "{{ item.1.subject_name }}"
+    state: "{{ item.1.state }}"
+  loop: "{{ contracts | subelements('subjects') }}"
+  tags: [contracts, all]
 
-# - name: Bind Contract Subject to Filter
-#   cisco.aci.aci_contract_subject_to_filter:
-#     tenant: "{{ item.0.tenant }}"
-#     contract: "{{ item.0.contract_name }}"
-#     subject: "{{ item.1.subject_name }}"
-#     filter: "{{ item.1.filter }}"
-#     state: present
-#   loop: "{{ contracts | subelements('subjects') }}"
+- name: Bind Contract Subject to Filter
+  cisco.aci.aci_contract_subject_to_filter:
+    tenant: "{{ item.0.tenant }}"
+    contract: "{{ item.0.contract_name }}"
+    subject: "{{ item.1.subject_name }}"
+    filter: "{{ item.1.filter }}"
+    state: "{{ item.1.state }}"
+  loop: "{{ contracts | subelements('subjects') }}"
+  tags: [contracts, all]
 
-# - name: Bind EPG to Contract
-#   cisco.aci.aci_epg_to_contract:
-#     tenant: "{{ item.0.tenant }}"
-#     ap: "{{ item.0.ap }}"
-#     epg: "{{ item.0.epg_name }}"
-#     contract: "{{ item.1.contract }}"
-#     contract_type: "{{ item.1.contract_type }}"
-#     state: present
-#   loop: "{{ epgs | subelements('epg_contracts', skip_missing=true) }}"
+- name: Bind EPG to Contract
+  cisco.aci.aci_epg_to_contract:
+    tenant: "{{ item.0.tenant }}"
+    ap: "{{ item.0.ap }}"
+    epg: "{{ item.0.epg_name }}"
+    contract: "{{ item.1.contract }}"
+    contract_type: "{{ item.1.contract_type }}"
+    state: "{{ item.1.state }}"
+  loop: "{{ epgs | subelements('epg_contracts', skip_missing=true) }}"
+  tags: [contracts, all]
