@@ -1,0 +1,35 @@
+---
+- name: ACI automation
+  hosts: apic
+
+  tasks:
+    - name: Collect Tenants
+      cisco.aci.aci_tenant:
+        state: query
+      register: tenant_data
+
+    - name: Extract Tenant names and descriptions
+      ansible.builtin.set_fact:
+        tenant_vars: "{{ tenant_data.current | json_query('[].{name: fvTenant.attributes.name, description: fvTenant.attributes.descr}') }}"
+      
+    - debug: var=tenant_vars
+
+    # - name: Create YAML structure
+    #   ansible.builtin.set_fact:
+    #     tenants_yaml: "{{ {'tenants': tenant_vars} }}"
+
+    # - name: Write tenant names and descriptions to YAML file
+    #   copy:
+    #     content: "{{ tenants_yaml | to_nice_yaml }}"
+    #     dest: "./tenants.yml"
+
+    # - name: Display tenant names and descriptions YAML
+    #   debug:
+    #     msg: "{{ tenants_yaml }}"
+
+    - name: Collect VRFs
+      cisco.aci.aci_vrf:
+         state: query
+      register: vrfs
+    
+    - debug: var=vrfs
