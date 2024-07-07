@@ -3,6 +3,8 @@
   ansible.builtin.file:
     path: /tmp/aci_data/
     state: directory
+  delegate_to: "{{ ansible_controller }}"
+
 
 - name: Query Tenant
   cisco.aci.aci_tenant:
@@ -18,7 +20,7 @@
   ansible.builtin.copy:
     content: "{{ tenants | to_nice_yaml }}"
     dest: "/tmp/aci_data/tenants.yml"
-  # delegate_to: "{{ ansible_controller }}"
+  delegate_to: "{{ ansible_controller }}"
 
 # - debug: msg="{{ tenants | to_nice_yaml | split('\n') }}"
 
