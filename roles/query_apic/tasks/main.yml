@@ -16,7 +16,6 @@
     tenants: >-
       {{ tenant_data.current |
          json_query('[].{
-            object_path: fvTenant.attributes.dn,
             name: fvTenant.attributes.name,
             description: fvTenant.attributes.descr
             }'
