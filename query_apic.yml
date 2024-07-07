@@ -1,0 +1,6 @@
+---
+- name: Collect ACI configuration
+  hosts: apic
+
+  roles:
+    - query_apic

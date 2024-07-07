@@ -1,0 +1,89 @@
+---
+- name: Query Tenant
+  cisco.aci.aci_tenant:
+    state: query
+  register: tenant_data
+  tags: [tenants, all]
+
+- name: Extract Tenant data
+  ansible.builtin.set_fact:
+    tenants: "{{ tenant_data.current | json_query('[].{name: fvTenant.attributes.name, description: fvTenant.attributes.descr}') }}"
+
+- name: Write Tenant data to YAML file
+  ansible.builtin.copy:
+    content: "{{ tenants | to_nice_yaml }}"
+    dest: "/tmp/aci_data/tenants.yml"
+  delegate_to: "{{ ansible_controller }}"
+
+# - debug: msg="{{ tenants | to_nice_yaml | split('\n') }}"
+
+
+# - name: Query VRF
+#   cisco.aci.aci_vrf:
+#     state: query
+#   register: vrfs
+#   tags: [vrfs, all]
+
+# - name: Query Bridge Domain
+#   cisco.aci.aci_bd:
+#     state: query
+#   register: bds
+#   tags: [bds, all]
+
+# - name: Query Subnet
+#   cisco.aci.aci_bd_subnet:
+#     state: query
+#   register: subnets
+#   tags: [subnets, all]
+
+# - name: Query Application Profile
+#   cisco.aci.aci_ap:
+#     state: query
+#   register: aps
+#   tags: [aps, all]
+
+# - name: Query EPG
+#   cisco.aci.aci_epg:
+#     state: query
+#   register: epgs
+#   tags: [epgs, all]
+
+# - name: Query Filter
+#   cisco.aci.aci_filter:
+#     state: query
+#   register: filters
+#   tags: [filters, all]
+
+# - name: Query Filter entry
+#   cisco.aci.aci_filter_entry:
+#     state: query
+#   register: filter_entries
+#   tags: [filters, all]
+
+# - name: Query Contract
+#   cisco.aci.aci_contract:
+#     state: query
+#   register: contracts
+#   tags: [contracts, all]
+
+# - name: Query Contract Subject
+#   cisco.aci.aci_contract_subject:
+#     state: query
+#   register: contract_subjects
+#   tags: [contracts, all]
+
+# - name: Bind Contract Subject to Filter
+#   cisco.aci.aci_contract_subject_to_filter:
+#     state: query
+#   register: binding_contract_subject_to_filter
+#   tags: [contracts, all]
+
+# - name: Bind EPG to Contract
+#   cisco.aci.aci_epg_to_contract:
+#     contract_type: provider
+#     state: query
+#   register: binding_epg_to_contract
+#   tags: [contracts, all]
+
+# - debug: msg="{{ tenant_data | to_nice_yaml | split('\n') }}"
+# - debug: var=vrfs
