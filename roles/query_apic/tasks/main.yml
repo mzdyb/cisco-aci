@@ -5,92 +5,101 @@
     state: directory
   delegate_to: "{{ ansible_controller }}"
 
-
-- name: Query Tenant
+- name: Query Tenants
   cisco.aci.aci_tenant:
     state: query
   register: tenant_data
   tags: [tenants, all]
 
-- name: Extract Tenant data
+- name: Extract Tenants data
   ansible.builtin.set_fact:
-    tenants: "{{ tenant_data.current | json_query('[].{name: fvTenant.attributes.name, description: fvTenant.attributes.descr}') }}"
+    tenants: >-
+      {{ tenant_data.current |
+         json_query('[].{
+            name: fvCtx.attributes.name,
+            description: fvCtx.attributes.descr
+            }'
+         )
+      }}
 
-- name: Write Tenant data to YAML file
+- name: Write Tenants data to YAML file
   ansible.builtin.copy:
     content: "{{ tenants | to_nice_yaml }}"
     dest: "/tmp/aci_data/tenants.yml"
   delegate_to: "{{ ansible_controller }}"
 
-# - debug: msg="{{ tenants | to_nice_yaml | split('\n') }}"
+- name: Query VRFs
+  cisco.aci.aci_vrf:
+    state: query
+  register: vrf_data
+  tags: [vrfs, all]
 
+- name: Extract VRFs data
+  ansible.builtin.set_fact:
+    vrfs: >-
+      {{ vrf_data.current |
+         json_query('[].{
+            object_path: fvCtx.attributes.dn,
+            name: fvCtx.attributes.name,
+            description: fvCtx.attributes.descr,
+            policy_direction: fvCtx.attributes.pcEnfDir,
+            policy_enforcement: fvCtx.attributes.pcEnfPref
+            }'
+         )
+      }}
 
-# - name: Query VRF
-#   cisco.aci.aci_vrf:
-#     state: query
-#   register: vrfs
-#   tags: [vrfs, all]
+- name: Write VRFs data to YAML file
+  ansible.builtin.copy:
+    content: "{{ vrfs | to_nice_yaml }}"
+    dest: "/tmp/aci_data/vrfs.yml"
+  delegate_to: "{{ ansible_controller }}"
 
-# - name: Query Bridge Domain
-#   cisco.aci.aci_bd:
-#     state: query
-#   register: bds
-#   tags: [bds, all]
+- name: Query Bridge Domain
+  cisco.aci.aci_bd:
+    state: query
+  register: bd_data
+  tags: [bds, all]
 
-# - name: Query Subnet
-#   cisco.aci.aci_bd_subnet:
-#     state: query
-#   register: subnets
-#   tags: [subnets, all]
+- name: Extract Bridge Domain data
+  ansible.builtin.set_fact:
+    bds: >-
+      {{ bd_data.current |
+         json_query('[].{
+            object_path: fvBD.attributes.dn,
+            name: fvBD.attributes.name,
+            description: fvBD.attributes.descr
+            }'
+         )
+      }}
 
-# - name: Query Application Profile
-#   cisco.aci.aci_ap:
-#     state: query
-#   register: aps
-#   tags: [aps, all]
+- name: Write Bridge Domains data to YAML file
+  ansible.builtin.copy:
+    content: "{{ bds | to_nice_yaml }}"
+    dest: "/tmp/aci_data/bds.yml"
+  delegate_to: "{{ ansible_controller }}"
 
-# - name: Query EPG
-#   cisco.aci.aci_epg:
-#     state: query
-#   register: epgs
-#   tags: [epgs, all]
+- name: Query Subnets
+  cisco.aci.aci_bd_subnet:
+    state: query
+  register: subnets_data
+  tags: [subnets, all]
 
-# - name: Query Filter
-#   cisco.aci.aci_filter:
-#     state: query
-#   register: filters
-#   tags: [filters, all]
+- name: Extract Subnets data
+  ansible.builtin.set_fact:
+    subnets: >-
+      {{ subnets_data.current |
+         json_query('[].{
+            object_path: fvSubnet.attributes.dn,
+            name: fvSubnet.attributes.name,
+            description: fvSubnet.attributes.descr,
+            gateway: fvSubnet.attributes.ip,
+            scope: fvSubnet.attributes.scope
+            }'
+         )
+       }}
 
-# - name: Query Filter entry
-#   cisco.aci.aci_filter_entry:
-#     state: query
-#   register: filter_entries
-#   tags: [filters, all]
-
-# - name: Query Contract
-#   cisco.aci.aci_contract:
-#     state: query
-#   register: contracts
-#   tags: [contracts, all]
-
-# - name: Query Contract Subject
-#   cisco.aci.aci_contract_subject:
-#     state: query
-#   register: contract_subjects
-#   tags: [contracts, all]
-
-# - name: Bind Contract Subject to Filter
-#   cisco.aci.aci_contract_subject_to_filter:
-#     state: query
-#   register: binding_contract_subject_to_filter
-#   tags: [contracts, all]
-
-# - name: Bind EPG to Contract
-#   cisco.aci.aci_epg_to_contract:
-#     contract_type: provider
-#     state: query
-#   register: binding_epg_to_contract
-#   tags: [contracts, all]
-
-# - debug: msg="{{ tenant_data | to_nice_yaml | split('\n') }}"
-# - debug: var=vrfs
+- name: Write Subnets data to YAML file
+  ansible.builtin.copy:
+    content: "{{ subnets | to_nice_yaml }}"
+    dest: "/tmp/aci_data/subnets.yml"
+  delegate_to: "{{ ansible_controller }}"

@@ -18,7 +18,8 @@ bridge_domains:
     vrf: vrf1
     state: present
     subnets:
-      - gateway: 10.0.1.1
+      - subnet_name: app_bd_subnet1
+        gateway: 10.0.1.1
         mask: 24
         scope: public
         state: present
@@ -27,7 +28,8 @@ bridge_domains:
     vrf: vrf1
     state: present
     subnets:
-      - gateway: 10.0.2.1
+      - subnet_name: database_bd_subnet1
+        gateway: 10.0.2.1
         mask: 24
         scope: public
         state: present

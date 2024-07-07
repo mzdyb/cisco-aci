@@ -32,6 +32,7 @@
   cisco.aci.aci_bd_subnet:
     tenant: "{{ item.0.tenant }}"
     bd: "{{ item.0.bd_name }}"
+    subnet_name: "{{ item.1.subnet_name }}"
     gateway: "{{ item.1.gateway }}"
     mask: "{{ item.1.mask }}"
     scope: "{{ item.1.scope }}"
