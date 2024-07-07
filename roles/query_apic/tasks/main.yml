@@ -68,7 +68,7 @@
   ansible.builtin.set_fact:
     bds: >-
       {{ bd_data.current |
-         json_query("[?contains(fvCtx.attributes.dn,'production')].{
+         json_query("[?contains(fvBD.attributes.dn,'production')].{
             object_path: fvBD.attributes.dn,
             name: fvBD.attributes.name,
             description: fvBD.attributes.descr
@@ -94,7 +94,7 @@
   ansible.builtin.set_fact:
     subnets: >-
       {{ subnets_data.current |
-         json_query("[?contains(fvCtx.attributes.dn,'production')].{
+         json_query("[?contains(fvSubnet.attributes.dn,'production')].{
             object_path: fvSubnet.attributes.dn,
             name: fvSubnet.attributes.name,
             description: fvSubnet.attributes.descr,
