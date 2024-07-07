@@ -16,8 +16,9 @@
     tenants: >-
       {{ tenant_data.current |
          json_query('[].{
-            name: fvCtx.attributes.name,
-            description: fvCtx.attributes.descr
+            object_path: fvTenant.attributes.dn,
+            name: fvTenant.attributes.name,
+            description: fvTenant.attributes.descr
             }'
          )
       }}
