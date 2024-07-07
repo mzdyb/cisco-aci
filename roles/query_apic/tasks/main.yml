@@ -40,13 +40,13 @@
   ansible.builtin.set_fact:
     vrfs: >-
       {{ vrf_data.current |
-         json_query('[].{
+         json_query("[?contains(fvCtx.attributes.dn,'production')].{
             object_path: fvCtx.attributes.dn,
             name: fvCtx.attributes.name,
             description: fvCtx.attributes.descr,
             policy_direction: fvCtx.attributes.pcEnfDir,
             policy_enforcement: fvCtx.attributes.pcEnfPref
-            }'
+            }"
          )
       }}
   tags: [vrfs, all]
@@ -68,7 +68,7 @@
   ansible.builtin.set_fact:
     bds: >-
       {{ bd_data.current |
-         json_query('[].{
+         json_query('[?contains(fvCtx.attributes.dn,'production')].{
             object_path: fvBD.attributes.dn,
             name: fvBD.attributes.name,
             description: fvBD.attributes.descr
@@ -94,7 +94,7 @@
   ansible.builtin.set_fact:
     subnets: >-
       {{ subnets_data.current |
-         json_query('[].{
+         json_query('[?contains(fvCtx.attributes.dn,'production')].{
             object_path: fvSubnet.attributes.dn,
             name: fvSubnet.attributes.name,
             description: fvSubnet.attributes.descr,
