@@ -15,7 +15,7 @@
   ansible.builtin.set_fact:
     tenants: >-
       {{ tenant_data.current |
-         json_query("[].{
+         json_query("[?contains(fvTenant.attributes.dn,'production')].{
             name: fvTenant.attributes.name,
             description: fvTenant.attributes.descr
             }"
@@ -71,7 +71,6 @@
          json_query("[?contains(fvBD.attributes.dn,'production')].{
             object_path: fvBD.attributes.dn,
             name: fvBD.attributes.name,
-            description: fvBD.attributes.descr
             }"
          )
       }}
@@ -97,7 +96,6 @@
          json_query("[?contains(fvSubnet.attributes.dn,'production')].{
             object_path: fvSubnet.attributes.dn,
             name: fvSubnet.attributes.name,
-            description: fvSubnet.attributes.descr,
             gateway: fvSubnet.attributes.ip,
             scope: fvSubnet.attributes.scope
             }"
