@@ -15,10 +15,10 @@
   ansible.builtin.set_fact:
     tenants: >-
       {{ tenant_data.current |
-         json_query('[].{
+         json_query("[].{
             name: fvTenant.attributes.name,
             description: fvTenant.attributes.descr
-            }'
+            }"
          )
       }}
   tags: [tenants, all]
@@ -68,11 +68,11 @@
   ansible.builtin.set_fact:
     bds: >-
       {{ bd_data.current |
-         json_query('[?contains(fvCtx.attributes.dn,'production')].{
+         json_query("[?contains(fvCtx.attributes.dn,'production')].{
             object_path: fvBD.attributes.dn,
             name: fvBD.attributes.name,
             description: fvBD.attributes.descr
-            }'
+            }"
          )
       }}
   tags: [bds, all]
@@ -94,13 +94,13 @@
   ansible.builtin.set_fact:
     subnets: >-
       {{ subnets_data.current |
-         json_query('[?contains(fvCtx.attributes.dn,'production')].{
+         json_query("[?contains(fvCtx.attributes.dn,'production')].{
             object_path: fvSubnet.attributes.dn,
             name: fvSubnet.attributes.name,
             description: fvSubnet.attributes.descr,
             gateway: fvSubnet.attributes.ip,
             scope: fvSubnet.attributes.scope
-            }'
+            }"
          )
        }}
   tags: [subnets, all]
