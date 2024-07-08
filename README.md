@@ -48,4 +48,48 @@ Essential steps to automate with Ansible:
    The above approach is called _**Push of the button automation**_ as it allows to create sophisticated automation logic and to run it by just clicking "Run" button in the Workflow.
 
 ## Querying ACI Controller to collect ACI configuration
+The second use case presented in this project is to collect ACI configuration from APIC. Ansible modules for ACI configuration have three possible states: 
+- _present_ and _absent_ for adding and removing ACI Objects configuration
+- _**query**_ for collecting Objects' configuration from Controller
 
+In this example _query_ state is used to collect configuration of Tenant Networking objects: Tenants, VRFs, Bridge Domains and Subnets. This kind of query provides all configuration data related to queried objects and it might be a lot of data depending on queried objects so collected data is filtered to include only configuration parameters used by Ansible in the first use case. For this purpose _json_query_ filter is used:
+```
+     {{ tenant_data.current |
+         json_query("[?contains(fvTenant.attributes.dn,'production')].{
+            name: fvTenant.attributes.name,
+            description: fvTenant.attributes.descr
+            }"
+         )
+      }}
+```
+As we can see only Tenant _name_ and _description_ are collected from APIC and only for Tenant named 'Production' which reflects configuration variables defined in _host_vars/apic1_ file.
+
+## Remarks
+For production environment passwords should not be stored in clear text in the inventory. Instead environment variables to export credentials should be used or ansible vault for password encryption. In case of Ansible Automation Platform the best way is to use Custom Credentials with environment variables like in the example below.  
+_Custom Credential Input configuration:_
+```
+fields:
+  - id: username
+    type: string
+    label: APIC Username
+    secret: false
+  - id: password
+    type: string
+    label: APIC Password
+    secret: true
+```
+_Custom Credential Injector configuration:_
+```
+env:
+  ACI_PASSWORD: '{{ password }}'
+  ACI_USERNAME: '{{ username }}'
+```
+
+If you are interested in ACI configuration approach with Source of True moved to Version Control System like GitHub/GitLab please check the ACI as a Code project from my Red Hat colleague Dony Dubiel: [ACI-as-Code](https://gitlab.com/redhatautomation/network_demos/-/blob/main/cisco_aci/)
+
+## Feedback
+Feedback is always welcome! If you have any comments, please reach me out
+
+## Author
+
+[@mzdyb](https://www.linkedin.com/in/michal-zdyb-9aa4046/)
