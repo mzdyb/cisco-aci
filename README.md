@@ -25,4 +25,9 @@ Essential steps to automate with Ansible:
    ansible_httpapi_use_ssl=true
    ```
    As we can see _httpapi plugin_ is used here to connect to ACI Controller. This is the recommended way to connect to APIC and offers a number of benefits like ability defining credentials only once in inventory as opposed to including them in each task, authenticating per playbook run instead of per each tasks and so on. A good explanation of how _httpi plugin_ works and its benefits is provided here:  
-   [Cisco ACI httpapi plugin](https://www.ciscolive.com/on-demand/on-demand-library.html?search=httpapi#/session/1707505590105001pxJm)  
+   [Cisco ACI httpapi plugin](https://www.ciscolive.com/on-demand/on-demand-library.html?search=httpapi#/session/1707505590105001pxJm)
+
+2. Create data structure with variables reflecting ACI configuration.
+   This is crucial step and in more advanced scenarios it might serve as Soutce of Truth (SoT) for our Cisco ACI configuration. SoT is central repository for configurations with up to date and reliable information. It serves as the reference point for desired state of the infrastructure. SoT documents our configuration so we don't need screenshots anymore and we are enabling full automation using Ansible. If we move SoT to Version Control System like GitHub we are also able to implement NetDevOps approach which brings benefits from software developement realm to network operations. The example of this approach I presented in the following GitHub project:  
+   [NetDevOps with Ansible Automation Platform](https://github.com/mzdyb/netdevops)
+
