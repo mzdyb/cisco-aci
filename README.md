@@ -52,7 +52,7 @@ The second use case presented in this project is to collect ACI configuration fr
 - _present_ and _absent_ for adding and removing ACI Objects configuration
 - _**query**_ for collecting Objects' configuration from Controller
 
-In this example _query_ state is used to collect configuration of Tenant Networking objects: Tenants, VRFs, Bridge Domains and Subnets. This kind of query provides all configuration data related to queried objects and it might be a lot of data depending on queried objects so collected data is filtered to include only configuration parameters used by Ansible in the first use case. For this purpose _json_query_ filter is used:
+In this example _query_ state is used to collect configuration of Tenant Networking objects: Tenants, VRFs, Bridge Domains and Subnets. This kind of query provides all configuration data related to queried objects and it might be a lot of data depending on queried objects so collected data is filtered to include only configuration parameters used by Ansible in the first use case in this project. For this purpose _json_query_ filter is used:
 ```
      {{ tenant_data.current |
          json_query("[?contains(fvTenant.attributes.dn,'production')].{
