@@ -43,7 +43,7 @@ Essential steps to automate with Ansible:
        - configure_application
    ```
    **Automation Workflows**  
-   Workflows allow creating visual logical representation of automation jobs sequence based on the result of the previous jobs run in the sequence. In this project modularity in Workflows is implemented by using Ansible Tags in Ansible Roles. The example of Automation Workflow from Ansible Automation Platform implementing automation defined in _configure_aci.yml_ playbook in is shown below:
+   Workflows allow creating visual logical representation of automation jobs sequence based on the result of the previous jobs run in the sequence. In this project modularity in Workflows is implemented by using Ansible Tags in Ansible Roles. The example of Automation Workflow from Ansible Automation Platform implementing automation defined in _configure_aci.yml_ playbook is shown below:
 
    ![image](https://github.com/mzdyb/cisco-aci/assets/49950423/22b57cfd-a4b0-447d-a153-27e3166cf091)
    The above approach is called _**Push of the button automation**_ as it allows to create sophisticated automation logic and to run it by just clicking "Run" button in the Workflow.
