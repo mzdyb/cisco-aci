@@ -24,7 +24,7 @@ Essential steps to automate with Ansible:
    ansible_httpapi_validate_certs=false
    ansible_httpapi_use_ssl=true
    ```
-   As we can see _httpapi plugin_ is used here to connect to ACI Controller. This is the recommended way to connect to APIC and offers a number of benefits like ability defining credentials only once in inventory as opposed to including them in each task, authenticating per playbook run instead of per each tasks run and so on. A good explanation of how _httpi plugin_ works and its benefits is provided here: [Cisco ACI httpapi plugin](https://www.ciscolive.com/on-demand/on-demand-library.html?search=httpapi#/session/1707505590105001pxJm)
+   As we can see _httpapi plugin_ is used here to connect to ACI Controller. This is the recommended way to connect to APIC and offers a number of benefits like ability to defining credentials only once in inventory as opposed to including them in each task, authenticating per playbook run instead of per every tasks run etc. A good explanation of how _httpi plugin_ works and its benefits is provided here: [Cisco ACI httpapi plugin](https://www.ciscolive.com/on-demand/on-demand-library.html?search=httpapi#/session/1707505590105001pxJm)
      
 
 3. Create data structure with variables reflecting ACI configuration  
