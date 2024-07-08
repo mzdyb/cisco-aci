@@ -43,7 +43,7 @@ Essential steps to automate with Ansible:
        - configure_application
    ```
    **Automation Workflows**  
-   Thanks to using Ansible Tags with one playbook we can build modular Automation Workflows. Screenshot of Workflow from AAP is shown below:
+   Workflows allow creating visual logical representation of automation jobs sequence based on the result of the previous jobs run in the sequence. In this project modularity in Workflows is implemented by using Ansible Tags in Ansible Roles. The example of Workflow from Ansible Automation Platform is shown below:
 
    ![image](https://github.com/mzdyb/cisco-aci/assets/49950423/22b57cfd-a4b0-447d-a153-27e3166cf091)
 
