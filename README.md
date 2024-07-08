@@ -31,8 +31,9 @@ Essential steps to automate with Ansible:
    This is crucial step and in more advanced scenarios it might serve as Source of Truth (SoT) for our Cisco ACI configuration. SoT is central repository for configurations with up to date and reliable information. It serves as the reference point for desired state of the infrastructure. SoT documents our configuration so we don't need screenshots anymore and we are enabling full automation using Ansible. If we move SoT to Version Control System like GitHub we are also able to implement NetDevOps approach which brings benefits from Software Developement realm to network operations. The example of such approach is presented in the following GitHub project:  
    [NetDevOps with Ansible Automation Platform](https://github.com/mzdyb/netdevops)
 
-3. Write Ansible playbooks and use powerful Ansible Automation Platform features like automation Workflows, Role Based Access Controll (RBAC) etc.  
-   In this case Ansible Roles are used which allows to write modular/reusable automation code. The whole playbook to implement our ACI Objects thanks to using Roles looks as simple as this:
+3. Write Ansible playbooks and use powerful Ansible Automation Platform features like Automation Workflows, RBAC etc.  
+   **Playbooks**  
+   In this project Ansible Roles are used which allows to write modular/reusable automation code. Thanks to using Roles the whole playbook to implement our ACI Objects looks as simple as this:
    ```
    ---
    - name: Configure ACI
@@ -41,5 +42,9 @@ Essential steps to automate with Ansible:
      roles:
        - configure_application
    ```
+   **Automation Workflows**  
+   Thanks to using Ansible Tags with one playbook we can build modular Automation Workflows. Screenshot of Workflow from AAP is shown below:
+
+   ![image](https://github.com/mzdyb/cisco-aci/assets/49950423/22b57cfd-a4b0-447d-a153-27e3166cf091)
 
 
