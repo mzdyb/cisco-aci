@@ -32,4 +32,13 @@ Essential steps to automate with Ansible:
    [NetDevOps with Ansible Automation Platform](https://github.com/mzdyb/netdevops)
 
 3. Write Ansible playbooks and use powerful Ansible Automation Platform features like automation Workflows, Role Based Access Controll (RBAC) etc.
+   In this case Ansible Roles are used which allows to write modular/reusable automation code. The whole playbook to implement our ACI Objects thanks to the use of Roles looks as simple as this:
+   ```
+   ---
+   - name: Configure ACI
+     hosts: apic
+
+     roles:
+       - configure_application
+   ```
    
