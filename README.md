@@ -24,14 +24,13 @@ Essential steps to automate with Ansible:
    ansible_httpapi_validate_certs=false
    ansible_httpapi_use_ssl=true
    ```
-   As we can see _httpapi plugin_ is used here to connect to ACI Controller. This is the recommended way to connect to APIC and offers a number of benefits like ability defining credentials only once in inventory as opposed to including them in each task, authenticating per playbook run instead of per each tasks run and so on. A good explanation of how _httpi plugin_ works and its benefits is provided here:  
-   [Cisco ACI httpapi plugin](https://www.ciscolive.com/on-demand/on-demand-library.html?search=httpapi#/session/1707505590105001pxJm)
+   As we can see _httpapi plugin_ is used here to connect to ACI Controller. This is the recommended way to connect to APIC and offers a number of benefits like ability defining credentials only once in inventory as opposed to including them in each task, authenticating per playbook run instead of per each tasks run and so on. A good explanation of how _httpi plugin_ works and its benefits is provided here: [Cisco ACI httpapi plugin](https://www.ciscolive.com/on-demand/on-demand-library.html?search=httpapi#/session/1707505590105001pxJm)
+     
 
-2. Create data structure with variables reflecting ACI configuration  
-   This is crucial step and in more advanced scenarios it might serve as Source of Truth (SoT) for our Cisco ACI configuration. SoT is central repository for configurations with up to date and reliable information. It serves as the reference point for desired state of the infrastructure. SoT documents our configuration so we don't need screenshots anymore and we are enabling full automation using Ansible. If we move SoT to Version Control System like GitHub we are also able to implement NetDevOps approach which brings benefits from Software Developement realm to network operations. The example of such approach is presented in the following GitHub project:  
-   [NetDevOps with Ansible Automation Platform](https://github.com/mzdyb/netdevops)
+3. Create data structure with variables reflecting ACI configuration  
+   This is crucial step and in more advanced scenarios it might serve as Source of Truth (SoT) for our Cisco ACI configuration. SoT is central repository for configurations with up to date and reliable information. It serves as the reference point for desired state of the infrastructure. SoT documents our configuration so we don't need screenshots anymore and we are enabling full automation using Ansible. If we move SoT to Version Control System like GitHub we are also able to implement NetDevOps approach which brings benefits from Software Developement realm to network operations. The example of such approach is presented in the following GitHub project: [NetDevOps with Ansible Automation Platform](https://github.com/mzdyb/netdevops)
 
-3. Write Ansible playbooks and use powerful Ansible Automation Platform features like Automation Workflows, RBAC etc.  
+4. Write Ansible playbooks and use powerful Ansible Automation Platform features like Automation Workflows, RBAC etc.  
    **Playbooks**  
    In this project Ansible Roles are used which allows to write modular/reusable automation code. Thanks to using Roles the whole playbook to implement our ACI Objects looks as simple as this:
    ```
@@ -47,4 +46,6 @@ Essential steps to automate with Ansible:
 
    ![image](https://github.com/mzdyb/cisco-aci/assets/49950423/22b57cfd-a4b0-447d-a153-27e3166cf091)
    The above approach is called _**Push of the button automation**_ as it allows to create sophisticated automation logic and to run it by just clicking "Run" button in the Workflow.
+
+## Querying ACI Controller to collect ACI configuration
 
