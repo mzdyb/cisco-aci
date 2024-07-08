@@ -85,7 +85,7 @@ env:
   ACI_USERNAME: '{{ username }}'
 ```
 
-If you are interested in ACI configuration approach with Source of True moved to Version Control System like GitHub/GitLab please check the ACI as a Code project from my Red Hat colleague Dony Dubiel: [ACI-as-Code](https://gitlab.com/redhatautomation/network_demos/-/blob/main/cisco_aci/)
+If you are interested in ACI configuration approach with Source of True moved to Version Control System like GitHub/GitLab please check the ACI as a Code project from my Red Hat colleague Tony Dubiel: [ACI-as-Code](https://gitlab.com/redhatautomation/network_demos/-/blob/main/cisco_aci/)
 
 ## Feedback
 Feedback is always welcome! If you have any comments, please reach me out
