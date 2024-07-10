@@ -5,7 +5,8 @@ This projects shows how can we automate Cisco ACI using Ansible Automation Platf
 
 ## Configuring Cisco ACI objects
 Cisco ACI provides centralized approach to manage physical and virtual networks and one of its goals is to simplify and unify network management. But increased operational efficiency might not be fully experienced if we use manual operations via GUI to configure ACI. This so called 'ClickOps' requires many steps in GUI and is difficult to document (often requires screenshots of GUI configuration). Ansible provides powerful and robust approach to get rid of ClickOps and fully switch to Automation. In this example the following ACI Objects are configured with Ansible:
-![image](https://github.com/mzdyb/cisco-aci/assets/49950423/466cceba-7180-4fdc-9880-237928534732)  
+![image](https://github.com/mzdyb/cisco-aci/assets/49950423/c5446d6b-5c04-48a6-b44b-25317cc7ed70)
+
 
 Essential steps to automate with Ansible:
 1. Create inventory  
