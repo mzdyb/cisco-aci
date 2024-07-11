@@ -8,7 +8,7 @@ Cisco ACI provides centralized approach to manage physical and virtual networks 
 ![image](https://github.com/mzdyb/cisco-aci/assets/49950423/c5446d6b-5c04-48a6-b44b-25317cc7ed70)
 
 
-Essential steps to automate with Ansible:
+**Essential steps to automate with Ansible:**
 1. Create inventory  
    In inventory we are defining the list of target hosts we want to automate. In our case it is ACI Controller
    ```
