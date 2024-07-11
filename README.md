@@ -66,7 +66,7 @@ In this example _query_ state is used to collect configuration of Tenant Network
 As we can see only Tenant _name_ and _description_ are collected from APIC and only for Tenant named 'Production' which reflects configuration variables defined in _host_vars/apic1_ file.
 
 ## Remarks
-For production environment passwords should not be stored in clear text in the inventory. Instead environment variables to export credentials should be used or ansible vault for password encryption. In case of Ansible Automation Platform the best way is to use Custom Credentials with environment variables like in the example below.  
+For production environment passwords should not be stored in clear text in the inventory. Instead environment variables to export credentials should be used or ansible vault for password encryption. In case of Ansible Automation Platform the best approach is to use Custom Credentials with environment variables like in the example below.  
 _Custom Credential Input configuration:_
 ```
 fields:
