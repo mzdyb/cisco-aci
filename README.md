@@ -31,7 +31,8 @@ Cisco ACI provides centralized approach to manage physical and virtual networks 
 3. Create data structure with variables reflecting ACI configuration  
    This is crucial step and in more advanced scenarios it might serve as Source of Truth (SoT) for our Cisco ACI configuration. SoT is central repository for configurations with up to date and reliable information. It serves as the reference point for desired state of the infrastructure. SoT documents our configuration so we don't need screenshots anymore and we are enabling full automation using Ansible. If we move SoT to Version Control System like GitHub we are also able to implement NetDevOps approach which brings benefits from Software Developement realm to network operations. The example of such approach is presented in the following GitHub project: [NetDevOps with Ansible Automation Platform](https://github.com/mzdyb/netdevops)
 
-4. Write Ansible playbooks and use powerful Ansible Automation Platform features like Automation Workflows, RBAC etc.  
+4. Write Ansible playbooks and use powerful Ansible Automation Platform features like Automation Workflows, RBAC etc.
+
    **Playbooks**  
    In this project Ansible Roles are used which allows to write modular/reusable automation code. Thanks to using Roles the whole playbook to implement our ACI Objects looks as simple as this:
    ```
@@ -67,6 +68,7 @@ As we can see only Tenant _name_ and _description_ are collected from APIC and o
 
 ## Remarks
 For production environment passwords should not be stored in clear text in the inventory. Instead environment variables to export credentials should be used or ansible vault for password encryption. In case of Ansible Automation Platform the best approach is to use Custom Credentials with environment variables like in the example below.  
+
 _Custom Credential Input configuration:_
 ```
 fields:
