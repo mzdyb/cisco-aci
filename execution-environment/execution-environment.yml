@@ -39,6 +39,7 @@ dependencies:
     - jxmlease
     - xmltodict
     - jmespath
+    - packaging
 
   system:
     - python3 >=3.9
