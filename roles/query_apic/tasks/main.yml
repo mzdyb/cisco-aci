@@ -3,6 +3,7 @@
   ansible.builtin.file:
     path: /tmp/aci_data/
     state: directory
+    mode: '0755'
   delegate_to: "{{ ansible_controller }}"
 
 - name: Query Tenants
@@ -70,7 +71,7 @@
       {{ bd_data.current |
          json_query("[?contains(fvBD.attributes.dn,'production')].{
             object_path: fvBD.attributes.dn,
-            name: fvBD.attributes.name,
+            name: fvBD.attributes.name
             }"
          )
       }}
