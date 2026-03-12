@@ -22,23 +22,23 @@ additional_build_steps:
 dependencies:
   galaxy:
     collections:
-      - name: netbox.netbox
-      - name: junipernetworks.junos
-      - name: juniper.device
+      # - name: netbox.netbox
+      # - name: junipernetworks.junos
+      # - name: juniper.device
       - name: cisco.ios
-      - name: arista.eos
+      # - name: arista.eos
       - name: cisco.aci
       - name: community.general
   python:
-    - pytz
-    - pynetbox
-    - ncclient
-    - ntc-templates
-    - genie
-    - pyats
-    - jxmlease
-    - xmltodict
-    - jmespath
+    # - pytz
+    # - pynetbox
+    # - ncclient
+    # - ntc-templates
+    # - genie
+    # - pyats
+    # - jxmlease
+    # - xmltodict
+    # - jmespath
     - packaging
 
   system:
