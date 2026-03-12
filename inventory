@@ -1,5 +1,6 @@
 [apic]
-apic1 ansible_host=sandboxapicdc.cisco.com
+; apic1 ansible_host=sandboxapicdc.cisco.com
+apic1 ansible_host=192.168.125.10
 
 [apic:vars]
 ansible_connection=ansible.netcommon.httpapi
